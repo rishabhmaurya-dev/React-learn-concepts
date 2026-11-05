@@ -1,0 +1,36 @@
+Example samjho
+Maan lo tumhari website mein 5 pages hain:
+Page	Without Lazy	With Lazy
+Home	Initially download	Initially download
+About	Initially download	Click par download
+Contact	Initially download	Click par download
+Dashboard	Initially download	Click par download
+Reports	Initially download	Click par download
+
+Actual benefit kya hai?
+Maan lo:
+- Home ka code = 20 KB
+- About ka code = 100 KB
+- Contact ka code = 150 KB
+- Dashboard ka code = 300 KB
+- Reports ka code = 200 KB
+
+Without Lazy Loading
+770 KB
+
+Initial JavaScript download (simplified example)
+
+
+
+With Lazy Loading
+20 KB
+
+Initial JavaScript download, assuming only Home is loaded
+
+
+Baaki code navigation ke time download hoga.
+
+Ye illustrative numbers hain, actual bundle size dependencies aur build optimization par depend karega.
+
+
+>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>

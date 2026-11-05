@@ -3,11 +3,28 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import React from "react";
-  import Home from "./components/Home.jsx";
-  import About from "./components/About.jsx";
+import Home from "./components/Home.jsx";
+import About from "./components/About.jsx";
 import Contact from "./components/Contact.jsx";
+import AdminDashboard from "./layouts/AdminDashboard.jsx";
+import Profile from "./pages/Profile.jsx";
+import Settings from "./pages/Settings.jsx";
 
 const router = createBrowserRouter([
+  {
+    path: "dashboard",
+    element: <AdminDashboard />,
+    children: [
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "settings",
+        element: <Settings />,
+      },
+    ],
+  },
   {
     path: "/",
     element: <Home />,
