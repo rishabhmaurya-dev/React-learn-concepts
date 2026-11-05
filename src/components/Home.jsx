@@ -3,6 +3,7 @@ const About = React.lazy(() => import("./About.jsx"));
 const Contact = React.lazy(() => import("./Contact.jsx"));
 
 const Home = () => {
+  console.log("Rendering Home component");
   return (
     <div>
       <h1>Home Page</h1>

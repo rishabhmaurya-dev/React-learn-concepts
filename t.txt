@@ -32,5 +32,13 @@ Baaki code navigation ke time download hoga.
 
 Ye illustrative numbers hain, actual bundle size dependencies aur build optimization par depend karega.
 
+>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>
+
+4. React.memo() in React
+
+React.memo() ek performance optimization technique hai jo unnecessary component re-rendering ko prevent karne mein help karti hai.
+
+Simple words mein: Agar parent component re-render hota hai, lekin child component ke props change nahi hue, to React.memo child ka re-render skip kar sakta hai.
+
 
 >>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>
