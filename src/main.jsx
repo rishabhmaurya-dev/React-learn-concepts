@@ -11,6 +11,7 @@ import Profile from "./pages/Profile.jsx";
 import Settings from "./pages/Settings.jsx";
 import UseMemo from "./components/UseMemo.jsx";
 import UseCallback from "./components/UseCallback.jsx";
+import UseRef from "./components/UseRef.jsx";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: "/about",
     element: <About />,
+  },
+  {
+    path: "/use-ref",
+    element: <UseRef />,
   },
   {
     path: "/contact",
