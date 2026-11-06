@@ -1,3 +1,4 @@
+// useRef ka main kaam kisi bhi DOM node ko directly target karna ya pakadna hota hai, chahe woh input ho ya na ho.
 import { useRef, useState } from "react";
 const UseRef = () => {
   const [val, setVal] = useState("");

@@ -12,6 +12,7 @@ import Settings from "./pages/Settings.jsx";
 import UseMemo from "./components/UseMemo.jsx";
 import UseCallback from "./components/UseCallback.jsx";
 import UseRef from "./components/UseRef.jsx";
+import UseParams from "./components/UseParams.jsx";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/use-memo",
     element: <UseMemo />,
+  },
+  {
+    path: "/use-params/:id",
+    element: <UseParams />,
   },
   {
     path: "/use-callback",
