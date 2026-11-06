@@ -1,3 +1,6 @@
+// useMemo (Hook for Values)
+// Kyun use hota hai? Kisi heavy calculation ya expensive function ke result ko yaad (memoize) rakhne ke liye, taaki har render par woh calculation dubara na karni pade. Yeh sirf tabhi run hota hai jab iski dependencies change hoti hain.
+
 import { useMemo, useState } from "react";
 
 const UseMemo = () => {

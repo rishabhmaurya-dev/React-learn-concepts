@@ -10,6 +10,7 @@ import AdminDashboard from "./layouts/AdminDashboard.jsx";
 import Profile from "./pages/Profile.jsx";
 import Settings from "./pages/Settings.jsx";
 import UseMemo from "./components/UseMemo.jsx";
+import UseCallback from "./components/UseCallback.jsx";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/use-memo",
     element: <UseMemo />,
+  },
+  {
+    path: "/use-callback",
+    element: <UseCallback />,
   },
   {
     path: "/about",
