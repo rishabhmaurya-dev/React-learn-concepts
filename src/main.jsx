@@ -9,6 +9,7 @@ import Contact from "./components/Contact.jsx";
 import AdminDashboard from "./layouts/AdminDashboard.jsx";
 import Profile from "./pages/Profile.jsx";
 import Settings from "./pages/Settings.jsx";
+import UseMemo from "./components/UseMemo.jsx";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/use-memo",
+    element: <UseMemo />,
   },
   {
     path: "/about",
