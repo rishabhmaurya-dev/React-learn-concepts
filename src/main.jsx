@@ -15,6 +15,7 @@ import UseRef from "./components/UseRef.jsx";
 import UseParams from "./components/UseParams.jsx";
 import UseSearchParams from "./components/UseSearchParams.jsx";
 import EventBubbling from "./components/EventBubbling.jsx";
+import EventPropagation from "./components/EventPropagation.jsx";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: "/use-memo",
     element: <UseMemo />,
+  },
+  {
+    path: "/event-propagation",
+    element: <EventPropagation />,
   },
   {
     path: "/use-params/:id",
