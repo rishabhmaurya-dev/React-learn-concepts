@@ -13,6 +13,7 @@ import UseMemo from "./components/UseMemo.jsx";
 import UseCallback from "./components/UseCallback.jsx";
 import UseRef from "./components/UseRef.jsx";
 import UseParams from "./components/UseParams.jsx";
+import UseSearchParams from "./components/UseSearchParams.jsx";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: "/use-params/:id",
     element: <UseParams />,
+  },
+  {
+    path: "/use-search-params",
+    element: <UseSearchParams />,
   },
   {
     path: "/use-callback",
