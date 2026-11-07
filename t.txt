@@ -32,7 +32,7 @@ Baaki code navigation ke time download hoga.
 
 Ye illustrative numbers hain, actual bundle size dependencies aur build optimization par depend karega.
 
->>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>%>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>
 
 4. React.memo() in React
 
@@ -41,4 +41,110 @@ React.memo() ek performance optimization technique hai jo unnecessary component 
 Simple words mein: Agar parent component re-render hota hai, lekin child component ke props change nahi hue, to React.memo child ka re-render skip kar sakta hai.
 
 
->>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>%>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>
+
+5. Component 2 baar render kyun ho raha hai? (Lazy + Suspense)
+
+Console output:
+  Rendering Home component
+  Rendering About component
+  Rendering Profile component
+  Rendering About component
+  Rendering Profile component
+
+Yeh bug nahi hai. Yeh React ke dev-mode behaviour ki wajah se ho raha hai.
+
+Kaise?
+- Home component <Suspense> ke BAAHAR hai, isliye woh sirf 1 baar render hua.
+- About aur Profile <Suspense> ke ANDAR hain aur React.lazy se load ho rahe hain.
+- Ek hi Suspense boundary ke andar 2 lazy components (About aur Contact) hain.
+- Dono alag-alag time par load hote hain. React har lazy chunk resolve hone par
+  Suspense boundary ko RETRY karta hai.
+
+Step-by-step:
+  1. Initial render: About aur Contact dono pending -> fallback ("Loading...") dikhta hai.
+  2. About ka chunk load hua -> React retry karta hai:
+       About render (log #1) -> Profile render (log #1)
+       Contact abhi pending -> wahin suspend/abort.
+       Poora attempt discard ho jata hai.
+  3. Contact ka chunk bhi load hua -> React dobara retry karta hai:
+       About phir render (log #2) -> Profile phir render (log #2)
+       Contact render (log #1) -> commit.
+
+Important:
+- Yeh SIRF development mode mein hota hai.
+- Production build (npm run build) mein aisa nahi hoga, wahan ek hi baar render hoga.
+- Console logs dev mode mein React ke retries dikha rahe hain, actual DOM par
+  sirf final committed render jata hai.
+
+>>>>>>>>>>>%>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>
+
+6. Contact ek hi baar render kyun hua?
+
+Do wajah:
+  1. Contact.jsx mein console.log hi nahi tha (isliye pehle kuch print nahi hua).
+     Log add karne ke baad woh 1 baar print hua.
+
+  2. Contact Suspense ke andar SABSE LAST resolve hota hai.
+     React tree ko order mein render karta hai: pehle About, phir Contact.
+       - Retry 1 (About load hua): About chala, Contact pending -> abort.
+       - Retry 2 (Contact bhi load hua): About phir chala, phir Contact chala -> commit.
+     Isliye pending component ke PEHLE wala har retry mein dobara chalta hai,
+     aur LAST wala sirf final render mein ek baar chalta hai.
+
+  Agar order badal ke <Contact /> pehle rakh do, to Contact 2 baar aur
+  About 1 baar log karega.
+
+>>>>>>>>>>>%>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>
+
+7. Lazy import hone se render 2 baar hota hai kya?
+
+Nahi. Sirf lazy import hone se double nahi hota. Double render ki asli wajah hai:
+ek hi Suspense ke andar multiple lazy components ka alag-alag resolve hona.
+
+  - Ek akela lazy component (apni alag Suspense mein) -> 1 baar render.
+  - Do lazy siblings ek hi Suspense mein -> pehla wala har retry mein chalta hai,
+    isliye 2 baar; last wala 1 baar.
+  - Har lazy component ko alag <Suspense> mein daal do -> dono 1-1 baar.
+
+Isliye Home lazy nahi hoke bhi 1 baar chala, aur About lazy hoke 2 baar chala.
+Wajah "lazy" nahi, Suspense ke retries hain.
+
+Fix ke options:
+  a) Har lazy component ko apni alag <Suspense> boundary do.
+  b) Dono lazy modules ko pehle preload karo, phir render karo.
+  c) Chhote components ho to eager import kar do (lazy hata do).
+
+>>>>>>>>>>>%>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>
+
+8. Profile 2 baar render kyun hua jab React.memo use hua tha?
+
+React.memo SIRF update ke time kaam karta hai:
+  - Parent re-render ho aur props same hon -> render skip.
+  - Mount (pehli baar) par memo kuch nahi karta, component render hota hi hai.
+
+Yahan dono baar Profile NAYA MOUNT ho raha tha, re-render nahi:
+  1. Retry 1 mein About + Profile mount hue -> log #1 -> phir Contact suspend
+     -> React ne poora attempt DISCARD kar diya.
+  2. Retry 2 mein tree scratch se dobara bana -> Profile phir mount -> log #2.
+
+Memo ko compare karne ke liye koi committed previous props milte hi nahi
+(pehla attempt commit hua hi nahi), isliye woh bail out nahi kar paya.
+
+Test:
+  "increase" button dabao (About ka state change hoga)
+  -> About re-render hoga, par Profile React.memo ki wajah se log NAHI karega.
+  Yahi React.memo ka actual fayda hai (unnecessary re-render skip).
+
+>>>>>>>>>>>%>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>
+
+9. Summary (yaad rakhne wali baatein)
+
+  - Suspense ke bahar wale components normally 1 baar render hote hain.
+  - Suspense ke andar multiple lazy siblings ho to retries ki wajah se
+    pehle wale components baar-baar render ho sakte hain (dev mode).
+  - Sabse last wala lazy component sirf final render mein chalta hai.
+  - React.memo mount par nahi, sirf committed update par re-render rokta hai.
+  - Yeh sab dev-mode behaviour hai; production build mein double render nahi hota.
+
+>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>

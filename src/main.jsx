@@ -14,6 +14,7 @@ import UseCallback from "./components/UseCallback.jsx";
 import UseRef from "./components/UseRef.jsx";
 import UseParams from "./components/UseParams.jsx";
 import UseSearchParams from "./components/UseSearchParams.jsx";
+import EventBubbling from "./components/EventBubbling.jsx";
 
 const router = createBrowserRouter([
   {
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
   {
     path: "/contact",
     element: <Contact />,
+  },
+  {
+    path: "/bubble",
+    element: <EventBubbling />,
   },
 ]);
 

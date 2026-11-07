@@ -10,6 +10,7 @@ const About = () => {
       <h2>{count}</h2>
       <button onClick={() => setCount(count + 1)}>increase</button>
       <p>Welcome to the About page!</p>
+
       <Profile />
     </div>
   );

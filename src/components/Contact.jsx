@@ -1,7 +1,8 @@
 const Contact = () => {
+  console.log("Rendering Contact component");
   return (
     <div>
-      <h1>Contact Page</h1>
+      <h>Contact Page</h>
       <p>Welcome to the Contact page!</p>
     </div>
   );
