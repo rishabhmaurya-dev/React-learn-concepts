@@ -66,7 +66,7 @@ function DebouncingAbort() {
                 style={{ padding: "8px 0", borderBottom: "1px solid #ddd" }}
               >
                 <strong>{u.name}</strong> ({u.email})
-              </li>
+               </li>
             ))
           : !loading && name && <p style={{ color: "red" }}>No users found</p>}
       </ul>
