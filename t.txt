@@ -148,3 +148,59 @@ Test:
   - Yeh sab dev-mode behaviour hai; production build mein double render nahi hota.
 
 >>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>
+
+10. Event Propagation, Event Bubbling aur Capturing
+
+Event Propagation kya hai?
+Jab tum kisi element par koi event fire karte ho (jaise click), to woh event
+sirf usi element tak simit nahi rehta. Woh DOM tree mein travel karta hai.
+Is poore travel ko Event Propagation kehte hain.
+
+Event Propagation ke 3 phases hote hain:
+  1. Capturing phase (Capture) -> event root se neeche target tak jata hai.
+  2. Target phase           -> event actual target element par pahunchta hai.
+  3. Bubbling phase         -> event target se wapas upar (root) ki taraf jata hai.
+
+Event Bubbling kya hai?
+Bubbling mein event sabse pehle target par chalta hai, phir uske parent par,
+phir grandparent par... yun upar tak (jaise paani mein bubble upar jata hai).
+Matlab andar se bahar ki taraf.
+
+Example:
+  <div id="outer" onClick={...}>
+    <div id="inner" onClick={...}>
+      <button>Click me</button>
+    </div>
+  </div>
+
+  Button par click karne par:
+    1. Button ka onClick chalta hai.
+    2. Phir inner div ka onClick chalta hai.
+    3. Phir outer div ka onClick chalta hai.
+  Isse Event Bubbling kehte hain.
+
+Capturing (Trickling):
+Capturing ulta hota hai - bahar se andar. Agar tum capture phase mein
+listener lagao, to outer pehle chalega, phir inner, phir target.
+  element.addEventListener("click", handler, true);  // true = capture
+  React mein: onClickCapture prop use karte hain.
+
+Event ko rokna:
+  - event.stopPropagation() -> aage bubbling/capturing rok deta hai.
+    (target tak pahunch kar aage parent par event nahi jayega)
+  - event.preventDefault()  -> browser ka default behaviour roktа hai
+    (jaise form submit, link navigation). Iska propagation se lena-dena nahi.
+
+React mein note karo:
+  - React apne events ko root container par delegate karta hai (synthetic events).
+  - React 17+ se attachment root par hota hai, document par nahi.
+  - Isliye React ke synthetic events bhi normal bubbling follow karte hain.
+  - stopPropagation React ke synthetic event par kaam karta hai.
+
+Yaad rakhne wali baatein:
+  - Bubbling = andar se bahar, Capturing = bahar se andar.
+  - stopPropagation() -> event ka travel rokta hai.
+  - preventDefault() -> browser ka default action rokta hai.
+  - Dono alag cheezein hain, confuse mat karna.
+
+>>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>>>%>>>>>>>>>>>>>>>>>

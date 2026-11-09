@@ -16,6 +16,7 @@ import UseParams from "./components/UseParams.jsx";
 import UseSearchParams from "./components/UseSearchParams.jsx";
 import EventBubbling from "./components/EventBubbling.jsx";
 import EventPropagation from "./components/EventPropagation.jsx";
+import Debouncing from "./assets/Debouncing.jsx";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,11 @@ const router = createBrowserRouter([
   {
     path: "/event-propagation",
     element: <EventPropagation />,
+  },
+
+  {
+    path: "/debouncing",
+    element: <Debouncing />,
   },
   {
     path: "/use-params/:id",
